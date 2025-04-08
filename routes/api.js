@@ -17,7 +17,9 @@ module.exports = function (app) {
     return arr2D
   }
 
-  app.route('/api/check').post((req, res) => {})
+  app.route('/api/check').post((req, res) => {
+    res.json({valid: true})
+  })
 
   app.route('/api/solve').post((req, res) => {
     const puzzleString = req.body.puzzle
