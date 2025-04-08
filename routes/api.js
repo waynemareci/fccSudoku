@@ -44,6 +44,7 @@ module.exports = function (app) {
     const outputString = solver.solve(box)
     console.log("Here's what the ouputString looks like:")
     console.log(outputString)
+    if (/0/.test(outputString)) {res.json({error: 'Puzzle cannot be solved'});return}
     res.json({ solution: outputString })
   })
 }
