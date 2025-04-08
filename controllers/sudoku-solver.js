@@ -1,5 +1,8 @@
 class SudokuSolver {
-  validate (puzzleString) {}
+  validate (puzzleString) {
+    if (puzzleString.length !== 81) return ('bad length')
+    return /^[0-9.]+$/.test(puzzleString)
+  }
 
   checkRowPlacement (puzzleString, row, column, value) {}
 

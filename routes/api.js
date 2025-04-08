@@ -21,12 +21,29 @@ module.exports = function (app) {
 
   app.route('/api/solve').post((req, res) => {
     const puzzleString = req.body.puzzle
+    if (!puzzleString) {
+      res.json({ error: 'Required field missing' })
+      return
+    }
+    const validateReturn = solver.validate(puzzleString)
+    if (!validateReturn || validateReturn === 'bad length') {
+      if (!validateReturn) {
+        console.log("invalid character error")
+        res.json({ error: 'Invalid characters in puzzle' })
+
+      } else {
+        console.log("bad length")
+        res.json({ error: 'Expected puzzle to be 81 characters long' })
+      }
+      return
+    }
+
+    //      {res.json({error:'Invalid characters in puzzle'});return}
     console.log('puzzleString: ' + puzzleString + '\n')
     const box = puzzleStringToArray(puzzleString)
     const outputString = solver.solve(box)
     console.log("Here's what the ouputString looks like:")
     console.log(outputString)
-    res.json({solution: outputString})
-
+    res.json({ solution: outputString })
   })
 }
