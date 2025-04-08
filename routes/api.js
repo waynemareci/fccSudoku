@@ -23,7 +23,10 @@ module.exports = function (app) {
     const puzzleString = req.body.puzzle
     console.log('puzzleString: ' + puzzleString + '\n')
     const box = puzzleStringToArray(puzzleString)
-    solver.solve(box)
+    const outputString = solver.solve(box)
+    console.log("Here's what the ouputString looks like:")
+    console.log(outputString)
+    res.json({solution: outputString})
 
   })
 }
