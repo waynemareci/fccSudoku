@@ -1,12 +1,27 @@
 class SudokuSolver {
   validate (puzzleString) {
-    if (puzzleString.length !== 81) return ('bad length')
+    if (puzzleString.length !== 81) return 'bad length'
     return /^[0-9.]+$/.test(puzzleString)
   }
 
-  checkRowPlacement (puzzleString, row, column, value) {}
+  checkRowPlacement (puzzleString, row, column, value) {
+    console.log('in checkRowPlacement')
+    console.log('row: ' + row + '; col: ' + column + '; value: ' + value)
+    for (var i = column - 1; i<9; i++) {
+      console.log(puzzleString[row-1][i])
+      if (puzzleString[row - 1][i] === value) return 'row'
+    }
+    return ''
+  }
 
-  checkColPlacement (puzzleString, row, column, value) {}
+  checkColPlacement (puzzleString, row, column, value) {
+    console.log('in checkColPlacement')
+    console.log('row: ' + row + '; col: ' + column + '; value: ' + value)
+    for (var i = row - 1; i < 9; i++) {
+      if (puzzleString[i][column-1] === value) return 'column'
+    }
+    return ''
+  }
 
   checkRegionPlacement (puzzleString, row, column, value) {}
 

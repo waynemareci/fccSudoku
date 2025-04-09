@@ -23,7 +23,7 @@ module.exports = function (app) {
       'coordinate ' + req.body.coordinate + '; value: ' + req.body.value
     )
     if (!req.body.puzzle || !req.body.coordinate || !req.body.value) {
-      console.log("in check; required field missing")
+      console.log('in check; required field missing')
       res.json({ error: 'Required field(s) missing' })
       return
     }
@@ -48,34 +48,82 @@ module.exports = function (app) {
     const value = req.body.value
     if (!/[0-9]/.test(value) || value < 1 || value > 9) {
       console.log('bad value')
-      res.json({error: 'Invalid value'})
+      res.json({ error: 'Invalid value' })
       return
     }
 
-    const row = 1
-    const column = 1
-    /*
+    var row
+    const column = req.body.coordinate.slice(1, 2)
+    console.log('column is ' + column)
+    switch (req.body.coordinate.slice(0, 1)) {
+      case 'A':
+      case 'a':
+        row = 1
+        break
+      case 'B':
+      case 'b':
+        row = 2
+        break
+      case 'C':
+      case 'c':
+        row = 3
+        break
+      case 'D':
+      case 'd':
+        row = 4
+        break
+      case 'E':
+      case 'e':
+        row = 5
+        break
+      case 'F':
+      case 'f':
+        row = 6
+        break
+      case 'G':
+      case 'g':
+        row = 7
+        break
+      case 'H':
+      case 'h':
+        row = 8
+        break
+      case 'I':
+      case 'i':
+        row = 9
+        break
+    }
+    console.log('row is ' + row)
+
+    var conflict = []
+
     const rowResult = solver.checkRowPlacement(
-      req.body.puzzle,
+      puzzleStringToArray(req.body.puzzle),
       row,
       column,
       req.body.value
     )
-    const columnResult = solver.checkColumnPlacement(
-      req.body.puzzle,
+    console.log('rowResult is ' + rowResult)
+    conflict.push(rowResult)
+    const columnResult = solver.checkColPlacement(
+      puzzleStringToArray(req.body.puzzle),
       row,
       column,
       req.body.value
     )
+    console.log('colResult is ' + columnResult)
+    conflict.push(columnResult)
     const regionResult = solver.checkRegionPlacement(
-      req.body.puzzle,
+      puzzleStringToArray(req.body.puzzle),
       row,
       column,
       req.body.value
     )
-      */
-    console.log("successful check pass")
-    res.json({ valid: true })
+    if (columnResult === '' && rowResult === '') {
+      console.log('successful check pass')
+      res.json({ valid: true })
+      return
+    } else res.json({ valid: false, conflict: conflict })
   })
 
   app.route('/api/solve').post((req, res) => {
