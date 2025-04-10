@@ -7,6 +7,7 @@ class SudokuSolver {
   checkRowPlacement (puzzleString, row, column, value) {
     console.log('in checkRowPlacement')
     console.log('row: ' + row + '; col: ' + column + '; value: ' + value)
+    if (puzzleString[row-1][column-1] === value) return ''
     for (var i = column - 1; i<9; i++) {
       console.log(puzzleString[row-1][i])
       if (puzzleString[row - 1][i] === value) return 'row'
@@ -17,6 +18,7 @@ class SudokuSolver {
   checkColPlacement (puzzleString, row, column, value) {
     console.log('in checkColPlacement')
     console.log('row: ' + row + '; col: ' + column + '; value: ' + value)
+    if (puzzleString[row-1][column-1] === value) return ''
     for (var i = row - 1; i < 9; i++) {
       if (puzzleString[i][column-1] === value) return 'column'
     }
